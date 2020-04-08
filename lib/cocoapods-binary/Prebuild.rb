@@ -81,6 +81,7 @@ module Pod
                 unchanged = changes.unchanged
                 deleted = changes.deleted 
     
+                sandbox_path.mkdir unless sandbox_path.exist?
                 existed_framework_folder.mkdir unless existed_framework_folder.exist?
                 exsited_framework_pod_names = sandbox.exsited_framework_pod_names
     
@@ -114,6 +115,7 @@ module Pod
             
             # build!
             Pod::UI.puts "Prebuild frameworks (total #{targets.count})"
+            sandbox_path.mkpath unless sandbox_path.exist? || targets.empty?
             Pod::Prebuild.remove_build_dir(sandbox_path)
             targets.each do |target|
                 if !target.should_build?
