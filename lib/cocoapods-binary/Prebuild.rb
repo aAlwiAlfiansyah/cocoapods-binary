@@ -72,6 +72,7 @@ module Pod
             existed_framework_folder = sandbox.generate_framework_path
             bitcode_enabled = Pod::Podfile::DSL.bitcode_enabled
             targets = []
+            existed_framework_folder.mkpath unless existed_framework_folder.exist?
             
             if local_manifest != nil
 
@@ -114,8 +115,6 @@ module Pod
             
             # build!
             Pod::UI.puts "Prebuild frameworks (total #{targets.count})"
-            sandbox_path.mkpath unless sandbox_path.exist?
-            existed_framework_folder.mkpath unless existed_framework_folder.exist?
             Pod::Prebuild.remove_build_dir(sandbox_path)
             targets.each do |target|
                 if !target.should_build?
@@ -167,7 +166,6 @@ module Pod
                 # This is for target with only .a and .h files
                 if not target.should_build? 
                     Prebuild::Passer.target_names_to_skip_integration_framework << target.name
-                    target_folder.mkpath unless target_folder.exist?
                     FileUtils.cp_r(root_path, target_folder, :remove_destination => true)
                     next
                 end
