@@ -36,7 +36,7 @@ def build_for_iosish_platform(sandbox,
   if simulator == 'iphonesimulator'
     joined_options = custom_build_options_simulator.join(' ')
     custom_build_options_simulator << 'ONLY_ACTIVE_ARCH=NO' unless joined_options.include?('ONLY_ACTIVE_ARCH')
-    custom_build_options_simulator << 'ARCHS=x86_64' unless joined_options.include?('ARCHS=')
+    custom_build_options_simulator << 'ARCHS=$(ARCHS_STANDARD)' unless joined_options.include?('ARCHS=')
     puts "custom_build_options_simulator: \n#{custom_build_options_simulator}"
   end
 
